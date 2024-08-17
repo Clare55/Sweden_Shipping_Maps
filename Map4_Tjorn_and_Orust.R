@@ -1,5 +1,5 @@
-# Creates Map 4/
-#Karta 4. Sjökrigshändelser i Tjörns närhet 1939–1945
+# Creates Map 4. Naval War Events near Tjörn 1939-1945
+# (Karta 4. Sjökrigshändelser i Tjörns närhet 1939–1945)
 
 library(lwgeom)
 library(osmdata)
@@ -170,7 +170,7 @@ ggsave("Gifs/Tjorn_Orust_colour_4_%03d.png",
 Map_coordinates_TO <- readxl::read_excel("Data/OrustTjorn_ships_v1.xlsx", sheet = "Sheet1", 
                                  range = "A1:D24") %>% 
   #  dplyr::mutate(LabelX = str_replace(Label, ",",",\n")) %>%
-  # create new variable LabelX from Label. Replace values of "," with "/n," to allow labels be wrapped in plot
+  # create new variable LabelX from Label. Replace values of "," with "\n," to allow labels be wrapped in plot
   dplyr::mutate(LabelX = case_when((Label == "MD 354 Eros av Åstol, 14/12 1944") ~ "MD 354 Eros av Åstol,\n14/12 1944",
                                    (Label == "MD 498 Elly av Dyrön, 6/11 1944") ~ "MD 498 Elly av Dyrön,\n6/11 1944",
                                    (Label =="Wiros av Göteborg, 3/9 1942") ~ "Wiros av Göteborg,\n3/9 1942",
