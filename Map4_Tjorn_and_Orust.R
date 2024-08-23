@@ -172,7 +172,7 @@ Map_coordinates_TO <- readxl::read_excel("Data/OrustTjorn_ships_v1.xlsx", sheet 
   #  dplyr::mutate(LabelX = str_replace(Label, ",",",\n")) %>%
   # create new variable LabelX from Label. Replace values of "," with "\n," to allow labels be wrapped in plot
   dplyr::mutate(LabelX = case_when((Label == "MD 354 Eros av Åstol, 14/12 1944") ~ "MD 354 Eros av Åstol,\n14/12 1944",
-                                   (Label == "MD 498 Elly av Dyrön, 6/11 1944") ~ "MD 498 Elly av Dyrön,\n6/11 1944",
+                                   (Label == "MD 498 Elly av Dyrön, 6/11 1940") ~ "MD 498 Elly av Dyrön,\n6/11 1940",
                                    (Label =="Wiros av Göteborg, 3/9 1942") ~ "Wiros av Göteborg,\n3/9 1942",
                                    (Label == "MD 527 Silvervåg av Åstol, 14/12 1944") ~ "MD 527 Silvervåg av Åstol, 14/12 1943",
                                    (Label == "Pater Noster") ~ "Pater\nNoster",
@@ -200,14 +200,14 @@ Map_coordinates_TO <- readxl::read_excel("Data/OrustTjorn_ships_v1.xlsx", sheet 
     Label %in% c("Westfalen (ty), 8/9 1944") ~ -.16,
     Label %in% c("Friedenau och Wigbert (ty), 10/4 1940") ~ -.24,
     Label %in% c("MD 466 Dunett av Rönnäng, 13/3 1941") ~ -.25, # moved left
-    Label %in% c("MD 498 Elly av Dyrön, 6/11 1944") ~ -.14, # moved left
+    Label %in% c("MD 498 Elly av Dyrön, 6/11 1940") ~ -.14, # moved left
     Label %in% c("M/T Procyon, 16/5 1940") ~ .15,
     Label %in% c("HMS Ulven, 15/4 1944") ~ .15,
     Label %in% c("St Pölsan") ~ .09, # moved right
     TRUE ~ 0)) %>%
   dplyr::mutate(NudgeY = case_when(Label %in% c("Åstol","Göteborg", "Uddevalla") ~ .016, # moved above
                                    Label %in% c("Pater Noster") ~ .03, # moved below                                  
-                                   Label %in% c("MD 498 Elly av Dyrön, 6/11 1944") ~ -.002, # moved below   
+                                   Label %in% c("MD 498 Elly av Dyrön, 6/11 1940") ~ -.002, # moved below   
                                    Label %in% c("Friedenau och Wigbert (ty), 10/4 1940") ~ -.002, # moved below,
                                    Label %in% c("MD 354 Eros av Åstol, 14/12 1944") ~ -.025, # moved below                                  
                                    Label %in% c("Måseskär", "Marstrand", "Lysekil",
