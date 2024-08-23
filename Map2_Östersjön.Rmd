@@ -2,20 +2,20 @@
 title: "Map 2: Östersjön (Baltic Sea)"
 output: html_notebook
 ---
-Create a map of the Baltic sea using the *ggplot2* package together with *sf* package to add **simple features** to a graph as layters.
+Create a map of the Baltic sea using the *ggplot2* package together with *sf* package to add **simple features** to a graph as layers.
 
 ### Load packages
-```{r warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 library(ggplot2) # Used for creating plots
 library(sf)      # Used in conjunction with ggplot to add layers to a plot.
 library(dplyr)   # Used to modify data in a data frame
-library(ggrepel)
+library(ggrepel) # Used to add labels to maps to avoid overlapping labels
 
-library(rnaturalearth) # Used to get natural earth map data from https://www.naturalearthdata.com/
-library(rnaturalearthdata)
-library(readxl)
-library(lwgeom)
-library(osmdata) # Used to get data from openstreetmap
+library(rnaturalearth)     # Used to get natural earth map data from https://www.naturalearthdata.com/
+library(rnaturalearthdata) # Used in conjunction with rnaturalearth
+library(readxl)            # Used for importing Excel worksheets
+library(lwgeom)            # Used for the st_split function
+library(osmdata)           # Used to get data from openstreetmap
 ```
 
 ### Create a Coastline Map
@@ -25,7 +25,7 @@ coastline10 <- rnaturalearth::ne_coastline(10)
 # Check the first 3 rows of coastline10
 head(coastline10,3)
 ```
-Create a map **Map1** based on the coastline data. 
+Create an initial map **Map1** based on the coastline data. 
 
 ```{r warning=FALSE, fig.width=1}
 Map1 <- ggplot(data = coastline10)+
@@ -33,7 +33,7 @@ Map1 <- ggplot(data = coastline10)+
 print(Map1)
 ```
 The result is a map of the coastline of the world.
-To set the map to the area we are interested first define the minimum and maximum latitude and longitude.
+To set the map to the area we are interested in, first define the minimum and maximum latitude and longitude.
 
 ```{r}
 # Define the Latitude and Longitudes of the Map
@@ -54,10 +54,9 @@ Map2 <- ggplot(data = coastline10) +
            expand = TRUE) +
   theme_classic()
 print(Map2)
-
 ```
 
-*Note:* This renders only as a line because the coastline is not a polygon. The fill setting is ignored.
+*Note:* The coastline renders only as a line because the coastline is not a polygon. The fill setting is ignored.
 
 
 ## Save as a GIF file
@@ -78,7 +77,7 @@ ggsave("GIFs/Map2_Ostersjon_Map2_basic_%03d.png",
 ## Add Lakes
 Download the lakes data from *rnaturalearth*. Set the scale to **10**, the largest scale.  Filter to display only top level lakes. 
 ```{r message=FALSE, warning=FALSE}
-# Download lakes dataset and save as lakes110
+# Download lakes dataset and save as lakes10
 lakes10 <- rnaturalearth::ne_download(scale = 10, type = "lakes", 
                                        category = "physical") %>%
             dplyr::filter(scalerank < 6) 
@@ -86,8 +85,8 @@ lakes10 <- rnaturalearth::ne_download(scale = 10, type = "lakes",
 
 
 ## Convert the coastline into a polygon
-First create a rectangle for the bounding box based on the Latitude and Longitude variables above. The split that rectangle via the coastline10$geometry setting and extract Polygon.
-Extract the split rectangle parts so [1] is sea and [2] is land.
+First create a rectangle for the bounding box based on the Latitude and Longitude variables above. Then split that rectangle via the coastline10$geometry setting and extract as a Polygon.
+Split the rectangle parts so [1] is sea and [2] is land.
 ```{r}
 bb_rect_O <- data.frame(lat = c(lat_min_O, lat_max_O),
                         lon = c(lon_min_O, lon_max_O)) %>% 
@@ -96,12 +95,11 @@ bb_rect_O <- data.frame(lat = c(lat_min_O, lat_max_O),
   st_as_sfc()
 
 bb_rect_O_split <- bb_rect_O %>% 
-  st_split(coastline10$geometry) %>%
-  st_collection_extract("POLYGON")
+  lwgeom::st_split(coastline10$geometry) %>%
+  sf::st_collection_extract("POLYGON")
 
 sea_O  <- bb_rect_O_split[1]
 land_O <- bb_rect_O_split[2]
-
 ```
 
 ### Create Map
@@ -150,7 +148,6 @@ Map3 <- ggplot(data = sea_O) +
 ```
 
 
-
 ```{r echo=FALSE, fig.cap="Östersjön", fig.height=4}
 print(Map3)
 ```
@@ -164,6 +161,7 @@ ggsave("GIFs/Map2_Ostersjon_Map3_3%03d.png",
        limitsize = FALSE,
        dpi=300)
 ```
+### Add Town, Sea and Country data 
 ```{r}
 # Read in file containing towns, seas and countries
 Map_coordinates_O <- readxl::read_excel("Data/Map2_Balticmap_coordinates_v4.xlsx", 
@@ -243,7 +241,7 @@ Points_O <- dplyr::filter(Map_coordinates_O, !Mark == "area") %>%
 plotcoast <- ggplot(data = sea_O) +
   geom_sf(fill = "lightblue",
           color = "steelblue") +
-  geom_sf(data=lakes110, fill = "lightblue") +
+  geom_sf(data=lakes10, fill = "lightblue") +
   geom_sf(data = Points_O, size = 2, shape = 21, fill = "darkred") +
   geom_sf_text(data = Labels_O, aes(label = Label, lineheight = .85), 
                size = Labels_O$FontSize) +
@@ -259,7 +257,6 @@ plotcoast <- ggplot(data = sea_O) +
         panel.grid.minor = element_blank(),
         panel.border = element_rect(colour = "black", fill=NA, linewidth =.3),
         panel.background = element_rect(fill = "antiquewhite"))
-
 ```
 
 ```{r echo=FALSE, fig.cap="Östersjön", fig.width=15, warning=FALSE}
@@ -290,7 +287,7 @@ options(ggrepel.max.overlaps = Inf)
 plotcoastLabels <- ggplot(data = sea_O) +
   geom_sf(fill = "lightblue",
           color = "steelblue") +
-  geom_sf(data=lakes110, fill = "lightblue") +
+  geom_sf(data=lakes10, fill = "lightblue") +
   geom_sf(data = Points_O, size = 2, shape = 21, fill = "darkred") +
   geom_text_repel(data = Map_coordinates_O, 
                   aes(label = Label, 
@@ -313,8 +310,6 @@ plotcoastLabels <- ggplot(data = sea_O) +
         panel.grid.minor = element_blank(),
         panel.border = element_rect(colour = "black", fill=NA, linewidth =.3),
         panel.background = element_rect(fill = "antiquewhite"))
-
-
 ```
 
 ```{r fig.width=20}
