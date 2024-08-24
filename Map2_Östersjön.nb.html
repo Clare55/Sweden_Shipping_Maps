@@ -1915,7 +1915,7 @@ coastline10$geometry setting and extract as a Polygon. Split the
 rectangle parts so [1] is sea and [2] is land.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYmJfcmVjdF9PIDwtIGRhdGEuZnJhbWUobGF0ID0gYyhsYXRfbWluX08sIGxhdF9tYXhfTyksXG4gICAgICAgICAgICAgICAgICAgICAgICBsb24gPSBjKGxvbl9taW5fTywgbG9uX21heF9PKSkgJT4lIFxuICBzdF9hc19zZihjb29yZHMgPSBjKFwibG9uXCIsIFwibGF0XCIpLCBjcnMgPSA0MzI2KSAlPiUgXG4gIHN0X2Jib3goKSAlPiUgXG4gIHN0X2FzX3NmYygpXG5cbmJiX3JlY3RfT19zcGxpdCA8LSBiYl9yZWN0X08gJT4lIFxuICBsd2dlb206OnN0X3NwbGl0KGNvYXN0bGluZTEwJGdlb21ldHJ5KSAlPiVcbiAgc2Y6OnN0X2NvbGxlY3Rpb25fZXh0cmFjdChcIlBPTFlHT05cIilcblxuc2VhX08gIDwtIGJiX3JlY3RfT19zcGxpdFsxXVxubGFuZF9PIDwtIGJiX3JlY3RfT19zcGxpdFsyXVxuXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYmJfcmVjdF9PIDwtIGRhdGEuZnJhbWUobGF0ID0gYyhsYXRfbWluX08sIGxhdF9tYXhfTyksXG4gICAgICAgICAgICAgICAgICAgICAgICBsb24gPSBjKGxvbl9taW5fTywgbG9uX21heF9PKSkgJT4lIFxuICBzdF9hc19zZihjb29yZHMgPSBjKFwibG9uXCIsIFwibGF0XCIpLCBjcnMgPSA0MzI2KSAlPiUgXG4gIHN0X2Jib3goKSAlPiUgXG4gIHN0X2FzX3NmYygpXG5cbmJiX3JlY3RfT19zcGxpdCA8LSBiYl9yZWN0X08gJT4lIFxuICBsd2dlb206OnN0X3NwbGl0KGNvYXN0bGluZTEwJGdlb21ldHJ5KSAlPiVcbiAgc2Y6OnN0X2NvbGxlY3Rpb25fZXh0cmFjdChcIlBPTFlHT05cIilcblxuc2VhX08gIDwtIGJiX3JlY3RfT19zcGxpdFsxXVxubGFuZF9PIDwtIGJiX3JlY3RfT19zcGxpdFsyXVxuYGBgIn0= -->
 <pre class="r"><code>bb_rect_O &lt;- data.frame(lat = c(lat_min_O, lat_max_O),
                         lon = c(lon_min_O, lon_max_O)) %&gt;% 
   st_as_sf(coords = c(&quot;lon&quot;, &quot;lat&quot;), crs = 4326) %&gt;% 
@@ -1927,8 +1927,7 @@ bb_rect_O_split &lt;- bb_rect_O %&gt;%
   sf::st_collection_extract(&quot;POLYGON&quot;)
 
 sea_O  &lt;- bb_rect_O_split[1]
-land_O &lt;- bb_rect_O_split[2]
-</code></pre>
+land_O &lt;- bb_rect_O_split[2]</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2088,7 +2087,7 @@ Points_O &lt;- dplyr::filter(Map_coordinates_O, !Mark == &quot;area&quot;) %&gt;
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBEaXNwbGF5cyBzZWEgYXMgbGlnaHQgYmx1ZSBhbmQgcG9pbnRzIGFzIGRhcmsgcmVkXG5wbG90Y29hc3QgPC0gZ2dwbG90KGRhdGEgPSBzZWFfTykgK1xuICBnZW9tX3NmKGZpbGwgPSBcImxpZ2h0Ymx1ZVwiLFxuICAgICAgICAgIGNvbG9yID0gXCJzdGVlbGJsdWVcIikgK1xuICBnZW9tX3NmKGRhdGE9bGFrZXMxMCwgZmlsbCA9IFwibGlnaHRibHVlXCIpICtcbiAgZ2VvbV9zZihkYXRhID0gUG9pbnRzX08sIHNpemUgPSAyLCBzaGFwZSA9IDIxLCBmaWxsID0gXCJkYXJrcmVkXCIpICtcbiAgZ2VvbV9zZl90ZXh0KGRhdGEgPSBMYWJlbHNfTywgYWVzKGxhYmVsID0gTGFiZWwsIGxpbmVoZWlnaHQgPSAuODUpLCBcbiAgICAgICAgICAgICAgIHNpemUgPSBMYWJlbHNfTyRGb250U2l6ZSkgK1xuICBjb29yZF9zZih4bGltID0gYyhsb25fbWluX08gKzEuMiwgbG9uX21heF9PIC0uOCksIFxuICAgICAgICAgICB5bGltID0gYyhsYXRfbWluX08gKy44LCBsYXRfbWF4X08gLS44KSwgXG4gICAgICAgICAgIGV4cGFuZCA9IFRSVUUpICtcbiAgdGhlbWUoYXhpcy5saW5lID0gZWxlbWVudF9saW5lKCksXG4gICAgICAgIGF4aXMudGlja3MgPSBlbGVtZW50X2JsYW5rKCksICAjIGhpZGVzIHRoZSBMYXQsIExvbmcgdGljayBsaW5lc1xuICAgICAgICBheGlzLnRleHQueCA9IGVsZW1lbnRfYmxhbmsoKSwgIyBoaWRlcyB0aGUgTG9uZ2l0dWRlIGxpbmVzXG4gICAgICAgIGF4aXMudGV4dC55ID0gZWxlbWVudF9ibGFuaygpLCAjIGhpZGVzIHRoZSBMYXRpdHVkZSBsaW5lc1xuICAgICAgICBheGlzLnRpdGxlID0gZWxlbWVudF9ibGFuaygpLCAgIyBoaWRlcyB0aGUgWCBhbmQgWSB0aXRsZXNcbiAgICAgICAgcGFuZWwuZ3JpZC5tYWpvciA9IGVsZW1lbnRfYmxhbmsoKSxcbiAgICAgICAgcGFuZWwuZ3JpZC5taW5vciA9IGVsZW1lbnRfYmxhbmsoKSxcbiAgICAgICAgcGFuZWwuYm9yZGVyID0gZWxlbWVudF9yZWN0KGNvbG91ciA9IFwiYmxhY2tcIiwgZmlsbD1OQSwgbGluZXdpZHRoID0uMyksXG4gICAgICAgIHBhbmVsLmJhY2tncm91bmQgPSBlbGVtZW50X3JlY3QoZmlsbCA9IFwiYW50aXF1ZXdoaXRlXCIpKVxuXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBEaXNwbGF5cyBzZWEgYXMgbGlnaHQgYmx1ZSBhbmQgcG9pbnRzIGFzIGRhcmsgcmVkXG5wbG90Y29hc3QgPC0gZ2dwbG90KGRhdGEgPSBzZWFfTykgK1xuICBnZW9tX3NmKGZpbGwgPSBcImxpZ2h0Ymx1ZVwiLFxuICAgICAgICAgIGNvbG9yID0gXCJzdGVlbGJsdWVcIikgK1xuICBnZW9tX3NmKGRhdGE9bGFrZXMxMCwgZmlsbCA9IFwibGlnaHRibHVlXCIpICtcbiAgZ2VvbV9zZihkYXRhID0gUG9pbnRzX08sIHNpemUgPSAyLCBzaGFwZSA9IDIxLCBmaWxsID0gXCJkYXJrcmVkXCIpICtcbiAgZ2VvbV9zZl90ZXh0KGRhdGEgPSBMYWJlbHNfTywgYWVzKGxhYmVsID0gTGFiZWwsIGxpbmVoZWlnaHQgPSAuODUpLCBcbiAgICAgICAgICAgICAgIHNpemUgPSBMYWJlbHNfTyRGb250U2l6ZSkgK1xuICBjb29yZF9zZih4bGltID0gYyhsb25fbWluX08gKzEuMiwgbG9uX21heF9PIC0uOCksIFxuICAgICAgICAgICB5bGltID0gYyhsYXRfbWluX08gKy44LCBsYXRfbWF4X08gLS44KSwgXG4gICAgICAgICAgIGV4cGFuZCA9IFRSVUUpICtcbiAgdGhlbWUoYXhpcy5saW5lID0gZWxlbWVudF9saW5lKCksXG4gICAgICAgIGF4aXMudGlja3MgPSBlbGVtZW50X2JsYW5rKCksICAjIGhpZGVzIHRoZSBMYXQsIExvbmcgdGljayBsaW5lc1xuICAgICAgICBheGlzLnRleHQueCA9IGVsZW1lbnRfYmxhbmsoKSwgIyBoaWRlcyB0aGUgTG9uZ2l0dWRlIGxpbmVzXG4gICAgICAgIGF4aXMudGV4dC55ID0gZWxlbWVudF9ibGFuaygpLCAjIGhpZGVzIHRoZSBMYXRpdHVkZSBsaW5lc1xuICAgICAgICBheGlzLnRpdGxlID0gZWxlbWVudF9ibGFuaygpLCAgIyBoaWRlcyB0aGUgWCBhbmQgWSB0aXRsZXNcbiAgICAgICAgcGFuZWwuZ3JpZC5tYWpvciA9IGVsZW1lbnRfYmxhbmsoKSxcbiAgICAgICAgcGFuZWwuZ3JpZC5taW5vciA9IGVsZW1lbnRfYmxhbmsoKSxcbiAgICAgICAgcGFuZWwuYm9yZGVyID0gZWxlbWVudF9yZWN0KGNvbG91ciA9IFwiYmxhY2tcIiwgZmlsbD1OQSwgbGluZXdpZHRoID0uMyksXG4gICAgICAgIHBhbmVsLmJhY2tncm91bmQgPSBlbGVtZW50X3JlY3QoZmlsbCA9IFwiYW50aXF1ZXdoaXRlXCIpKVxuYGBgIn0= -->
 <pre class="r"><code># Displays sea as light blue and points as dark red
 plotcoast &lt;- ggplot(data = sea_O) +
   geom_sf(fill = &quot;lightblue&quot;,
@@ -2108,8 +2107,7 @@ plotcoast &lt;- ggplot(data = sea_O) +
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         panel.border = element_rect(colour = &quot;black&quot;, fill=NA, linewidth =.3),
-        panel.background = element_rect(fill = &quot;antiquewhite&quot;))
-</code></pre>
+        panel.background = element_rect(fill = &quot;antiquewhite&quot;))</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
