@@ -80,7 +80,7 @@ ggsave("Gifs/Tjorn_colour_1_%03d.png",
 
 ### Add points
 Map_coordinates_TJ <- read_excel("Data/Coordinates_Tjörn_v2.xlsx", sheet = "Sheet1", 
-                              range = "B1:F55") %>% 
+                              range = "B1:F57") %>% 
                    na.omit() %>%  # Filter out any nulls
   dplyr::mutate(Type = case_when(Place %in% c("Hakefjorden", "Stigfjorden", 
                                               "Skagerrak") ~ "Sea", 
@@ -177,20 +177,23 @@ Tjorn_colour_2 <- ggplot() +
  # so try with sf_text but modifying placement for each label
 ######
 Map_coordinates_T <- read_excel("Data/Coordinates_Tjörn_v2.xlsx", sheet = "Sheet1", 
-                               range = "B1:F55") %>% 
+                               range = "B1:F57") %>% 
   # Filter out any nulls
   na.omit() %>%  
   # Add a new column Type which is set to Town or Sea depending on Place
   dplyr::mutate(Type = case_when(Place %in% c("Hakefjorden", "Stigfjorden", 
                                               "Skagerrak") ~ "Sea", 
+                                 mark == "region (just label, no dot)" ~ "Place",
                                  TRUE ~ "Town")) %>%  
   dplyr::mutate(FontSize = case_when((Type == "Country") ~ 8,
                                      TRUE ~ 5)) %>%
   # Add a new column FontFace which is set to bold.italic if Type is Sea or plain if not
   dplyr::mutate(FontFace = case_when((Type == "Sea") ~ "bold.italic",
+                                     Type == "Place" ~ "bold",
                                      TRUE ~ "plain")) %>%
   # Add a new column FontColour which is set to steel blue if Type is Sea or black if not
     dplyr::mutate(FontColour = case_when((Type == "Sea") ~ "steelblue",
+                                       Type == "Place" ~ "grey10",
                                        TRUE ~ "black")) %>%
   # Modify Place to split Lilla Askerön into 2 lines
   dplyr::mutate(Place = case_when((Place == "Lilla Askerön") ~ "Lilla\nAskerön", 
@@ -207,6 +210,9 @@ Map_coordinates_T <- read_excel("Data/Coordinates_Tjörn_v2.xlsx", sheet = "Shee
                                    (Place %in% c("Härön","Grönskären")) ~ -.008, # moved left
                                    (Place %in% c("Flatholmen",
                                                  "Klädesholmen", "Tjörnekalv")) ~ -.016, # moved left
+                                   (Place == "Sundsby") ~ .016, # moved right
+                                   (Place == "Hälleviksstrand") ~ .016, # moved right
+                                   (Place == "Edshultshall") ~ -.016, # moved left
                                    TRUE ~ 0)) %>%
   # Add a new column NudgeY which will be used to nudge text labels up or down
   dplyr::mutate(NudgeY = case_when((Place %in% c("Almösund", "Brattön", "Kuballe","Halsbäck", 
@@ -214,7 +220,8 @@ Map_coordinates_T <- read_excel("Data/Coordinates_Tjörn_v2.xlsx", sheet = "Shee
                                                  "Lilldal", "Mollösund", 
                                                  "Nordviksstrand", "Nösund", 
                                                  "Skåpesund", "Rönnäng",
-                                                 "Hjälteby", "Harsprånget")) ~ .004, # moved above
+                                                 "Hjälteby", "Harsprånget",
+                                                 "Hälleviksstrand", "Edshultshall")) ~ .004, # moved above
                                    (Place %in% c("Björholmen", "Djupvik",  
                                                  "Klövedals kyrka", "Marstrand", 
                                                  "Rörtången", "Rösselvik", 
@@ -265,7 +272,7 @@ Tjorn_colour_3 <- ggplot() +
 
 print(Tjorn_colour_3)
 
-ggsave("Gifs/Tjorn_colour_3_%03d.png",
+ggsave("Gifs/Tjorn_colour_3_bold_%03d.png",
        plot = last_plot(), 
        device = "png",
        scale = scale_factor,
